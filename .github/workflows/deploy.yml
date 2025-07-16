@@ -44,13 +44,8 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
 
-      - name: Create kubeconfig manually for GitHub Actions
-        run: |
-          mkdir -p ~/.kube
-          aws eks --region $AWS_REGION update-kubeconfig \
-            --name ${{ secrets.EKS_CLUSTER_NAME }} \
-            --role-arn arn:aws:iam::992382840179:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS \
-            --kubeconfig ~/.kube/config
+      - name: Update kubeconfig
+        run: aws eks update-kubeconfig --region $AWS_REGION --name ${{ secrets.EKS_CLUSTER_NAME }}
 
       - name: Test kubectl access
         run: kubectl get nodes
