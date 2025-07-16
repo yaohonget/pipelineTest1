@@ -46,6 +46,7 @@ jobs:
 
       - name: Decode and set kubeconfig
         run: |
+          mkdir -p $HOME/.kube
           echo "${{ secrets.KUBICONFIG_BASE64 }}" | base64 --decode > $HOME/.kube/config
           chmod 600 $HOME/.kube/config
 
